@@ -18,12 +18,12 @@ npx create-nx-workspace@latest \
 - Change package name in `package.json` to `@my-org/my-lib`
 - Also updated name of package in other files.
 
-## Release
+## Publish
 
 Below steps describe how I edited the workspace to properly use
-the `nx release` command to publish this library to the npm registry.
+the `nx release publish` command to publish this library to the npm registry.
 
-### First attempt
+### Publish
 
 ```sh
 ❯ npx nx release publish --dry-run --verbose
@@ -84,8 +84,6 @@ NOTE: The "dryRun" flag means no changes were made.
 We notice that all files from the workspace root are about to be published.
 This is not desirable but can be resolved without blaming `nx` or the new `nx release` command.
 
-### Second attempt
-
 So we now know that we need to limit the files being published.
 To do this, we can set the `files` property in our `package.json` to only list the files and folders that should be published. In this case it could contain just the dist folder.
 
@@ -134,8 +132,6 @@ Would publish to https://registry.npmjs.org/ with tag "latest", but [dry-run] wa
 
 We now see that only the `package.json` and `README.md` file would be published.
 Did we forget to build the package? Yes!
-
-### Third attempt
 
 ```sh
 npx nx build
@@ -337,4 +333,34 @@ Would publish to https://registry.npmjs.org/ with tag "latest", but [dry-run] wa
  ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
  >  NX   Successfully ran target nx-release-publish for project my-lib
+```
+
+### Version and Changelog
+
+Additional configuration can be added to configure automatically perform a version bump based on conventional commit messages and to generate changelog updates on every release.
+
+Add the `release` block to `nx.json`.
+
+```json
+"release": {
+    "version": {
+      "git": {
+        "commit": false,
+        "tag": false
+      },
+      "generatorOptions": {
+        "specifierSource": "conventional-commits",
+        "currentVersionResolver": "git-tag",
+        "fallbackCurrentVersionResolver": "disk"
+      }
+    },
+    "changelog": {
+      "workspaceChangelog": true,
+      "automaticFromRef": true,
+      "git": {
+        "commit": true,
+        "tag": true
+      }
+    }
+  },
 ```
