@@ -14,7 +14,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-standalone-ts-package/source": ["src/index.ts"]
+      "@my-org/my-lib": ["src/index.ts"]
     }
   },
   "files": [],

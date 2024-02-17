@@ -1,1 +1,1 @@
-export * from './lib/nx-standalone-ts-package';
+export * from './lib/my-lib';

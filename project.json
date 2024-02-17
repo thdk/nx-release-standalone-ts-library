@@ -1,5 +1,5 @@
 {
-  "name": "nx-standalone-ts-package",
+  "name": "my-lib",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "src",
   "projectType": "library",
@@ -8,10 +8,17 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/nx-standalone-ts-package",
+        "outputPath": "dist",
         "main": "./src/index.ts",
         "tsConfig": "./tsconfig.lib.json",
-        "assets": ["*.md"]
+        "assets": ["*.md"],
+        "rootDir": "./src"
+      }
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "options": {
+        "projectRoot": "{projectRoot}/dist"
       }
     },
     "lint": {
@@ -21,7 +28,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "coverage/nx-standalone-ts-package"
+        "reportsDirectory": "coverage/my-lib"
       }
     }
   },

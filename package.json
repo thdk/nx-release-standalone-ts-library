@@ -36,6 +36,10 @@
     "includedScripts": []
   },
   "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts"
+  "main": "./dist/src/index.js",
+  "typings": "./dist/src/index.d.ts",
+  "files": [
+    "dist",
+    "!dist/package.json"
+  ]
 }
