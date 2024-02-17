@@ -22,6 +22,27 @@
       "inputs": ["default", "^production"]
     }
   },
+  "release": {
+    "version": {
+      "git": {
+        "commit": false,
+        "tag": false
+      },
+      "generatorOptions": {
+        "specifierSource": "conventional-commits",
+        "currentVersionResolver": "git-tag",
+        "fallbackCurrentVersionResolver": "disk"
+      }
+    },
+    "changelog": {
+      "workspaceChangelog": true,
+      "automaticFromRef": true,
+      "git": {
+        "commit": true,
+        "tag": true
+      }
+    }
+  },
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",
