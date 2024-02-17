@@ -10,7 +10,7 @@ Below are my steps taken to configure this project.
 npx create-nx-workspace@latest \
     --preset ts-standalone \
     --ci skip \
-    nx-standalone-ts-package
+    my-lib
 ```
 
 ## Manual edits
@@ -28,16 +28,16 @@ the `nx release` command to publish this library to the npm registry.
 ```sh
 ❯ npx nx release publish --dry-run --verbose
 
- >  NX   Running target nx-release-publish for project nx-standalone-ts-package:
+ >  NX   Running target nx-release-publish for project my-lib:
 
-    - nx-standalone-ts-package
+    - my-lib
 
    With additional flags:
      --dryRun=true
 
  ———————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-> nx run nx-standalone-ts-package:nx-release-publish
+> nx run my-lib:nx-release-publish
 
 
 📦  @my-org/my-lib@0.0.1
@@ -53,8 +53,8 @@ the `nx release` command to publish this library to the npm registry.
 976B package.json
 732B project.json
 48B  src/index.ts
-222B src/lib/nx-standalone-ts-package.spec.ts
-89B  src/lib/nx-standalone-ts-package.ts
+222B src/lib/my-lib.spec.ts
+89B  src/lib/my-lib.ts
 622B tsconfig.json
 245B tsconfig.lib.json
 499B tsconfig.spec.json
@@ -73,7 +73,7 @@ Would publish to https://registry.npmjs.org/ with tag "latest", but [dry-run] wa
 
  ———————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
- >  NX   Successfully ran target nx-release-publish for project nx-standalone-ts-package
+ >  NX   Successfully ran target nx-release-publish for project my-lib
 
 
 
@@ -98,16 +98,16 @@ To do this, we can set the `files` property in our `package.json` to only list t
 ```sh
 ❯ npx nx release publish --dry-run --verbose
 
- >  NX   Running target nx-release-publish for project nx-standalone-ts-package:
+ >  NX   Running target nx-release-publish for project my-lib:
 
-    - nx-standalone-ts-package
+    - my-lib
 
    With additional flags:
      --dryRun=true
 
  ———————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-> nx run nx-standalone-ts-package:nx-release-publish
+> nx run my-lib:nx-release-publish
 
 
 📦  @my-org/my-lib@0.0.1
@@ -129,7 +129,7 @@ Would publish to https://registry.npmjs.org/ with tag "latest", but [dry-run] wa
 
  ———————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
- >  NX   Successfully ran target nx-release-publish for project nx-standalone-ts-package
+ >  NX   Successfully ran target nx-release-publish for project my-lib
 ```
 
 We now see that only the `package.json` and `README.md` file would be published.
@@ -146,16 +146,16 @@ Let see if `nx release publish` now would publish only the required files.
 ```sh
 ❯ npx nx release publish --dry-run --verbose
 
- >  NX   Running target nx-release-publish for project nx-standalone-ts-package:
+ >  NX   Running target nx-release-publish for project my-lib:
 
-    - nx-standalone-ts-package
+    - my-lib
 
    With additional flags:
      --dryRun=true
 
  ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-> nx run nx-standalone-ts-package:nx-release-publish
+> nx run my-lib:nx-release-publish
 
 
 📦  @my-org/my-lib@0.0.1
@@ -167,9 +167,9 @@ Let see if `nx release publish` now would publish only the required files.
 48B   dist/src/index.d.ts
 218B  dist/src/index.js
 119B  dist/src/index.js.map
-57B   dist/src/lib/nx-standalone-ts-package.d.ts
-300B  dist/src/lib/nx-standalone-ts-package.js
-215B  dist/src/lib/nx-standalone-ts-package.js.map
+57B   dist/src/lib/my-lib.d.ts
+300B  dist/src/lib/my-lib.js
+215B  dist/src/lib/my-lib.js.map
 1.0kB package.json
 === Tarball Details ===
 name:          @my-org/my-lib
@@ -244,16 +244,16 @@ Finally we can cleanup our `package.json` by removing the `src` sub directory fr
 ```sh
 ❯ npx nx release publish --dry-run --verbose
 
- >  NX   Running target nx-release-publish for project nx-standalone-ts-package:
+ >  NX   Running target nx-release-publish for project my-lib:
 
-    - nx-standalone-ts-package
+    - my-lib
 
    With additional flags:
      --dryRun=true
 
  ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-> nx run nx-standalone-ts-package:nx-release-publish
+> nx run my-lib:nx-release-publish
 
 
 📦  @my-org/my-lib@0.0.1
@@ -263,9 +263,9 @@ Finally we can cleanup our `package.json` by removing the `src` sub directory fr
 48B   dist/index.d.ts
 218B  dist/index.js
 116B  dist/index.js.map
-57B   dist/lib/nx-standalone-ts-package.d.ts
-300B  dist/lib/nx-standalone-ts-package.js
-212B  dist/lib/nx-standalone-ts-package.js.map
+57B   dist/lib/my-lib.d.ts
+300B  dist/lib/my-lib.js
+212B  dist/lib/my-lib.js.map
 1.0kB dist/package.json
 7.2kB dist/README.md
 1.0kB package.json
@@ -295,39 +295,46 @@ property in `package.json`.
 And tadaa!
 
 ```sh
+❯ npx nx release publish --dry-run
 
-> nx run nx-standalone-ts-package:nx-release-publish
+ >  NX   Running target nx-release-publish for project my-lib:
+
+    - my-lib
+
+   With additional flags:
+     --dryRun=true
+
+ ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+> nx run my-lib:nx-release-publish
+
 
 📦  @my-org/my-lib@0.0.1
 === Tarball Contents ===
 
-9.4kB README.md
-48B   dist/index.d.ts
-218B  dist/index.js
-116B  dist/index.js.map
-57B   dist/lib/nx-standalone-ts-package.d.ts
-300B  dist/lib/nx-standalone-ts-package.js
-212B  dist/lib/nx-standalone-ts-package.js.map
-7.2kB dist/README.md
-1.0kB package.json
+1.1kB  LICENSE
+10.3kB README.md
+30B    dist/index.d.ts
+200B   dist/index.js
+116B   dist/index.js.map
+41B    dist/lib/my-lib.d.ts
+200B   dist/lib/my-lib.js
+172B   dist/lib/my-lib.js.map
+10.6kB dist/README.md
+1.0kB  package.json
 === Tarball Details ===
 name:          @my-org/my-lib
 version:       0.0.1
 filename:      my-org-my-lib-0.0.1.tgz
-package size:  3.4 kB
-unpacked size: 18.6 kB
-shasum:        ccf0439829160b65cee9d9fdb803e54f35fe75f1
-integrity:     sha512-hJtXdeRdRNIUp[...]WMTTsQ47J2wmg==
-total files:   9
+package size:  4.3 kB
+unpacked size: 23.8 kB
+shasum:        759b65eeb426b540ea9d93f946c0854f352dcd4b
+integrity:     sha512-KLpammVULAbED[...]xZDugQ6nIdk4w==
+total files:   10
 
 Would publish to https://registry.npmjs.org/ with tag "latest", but [dry-run] was set
 
- ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+ ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
- >  NX   Successfully ran target nx-release-publish for project nx-standalone-ts-package
-
-
-
-NOTE: The "dryRun" flag means no changes were made.
-
+ >  NX   Successfully ran target nx-release-publish for project my-lib
 ```
