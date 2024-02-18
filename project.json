@@ -15,12 +15,6 @@
         "rootDir": "./src"
       }
     },
-    "nx-release-publish": {
-      "executor": "@nx/js:release-publish",
-      "options": {
-        "projectRoot": "{projectRoot}/dist"
-      }
-    },
     "lint": {
       "command": "eslint ./src ./package.json"
     },

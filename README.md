@@ -189,9 +189,11 @@ Hmm... two `package.json` files?
 Yes, `nx` will generate a minimal `package.json` file together with your compiled javascript files.
 
 Ideally we would run `npm publish` from within the `dist` folder but I didn't see
-the official nx docs to change the `cwd` used by the `nx release publish` command.
+the official nx docs to change the `cwd` used by the `nx release publish` command. (Update: see final attempt below)
 
 Therefor we can ignore that generated `package.json` for now and use the `package.json` file from the our repo.
+
+### Fourth attempt
 
 The only thing we have to adjust is the `main` property in `package.json` so that it contains the correct path of our compiled files.
 
@@ -335,6 +337,72 @@ total files:   10
 Would publish to https://registry.npmjs.org/ with tag "latest", but [dry-run] was set
 
  ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+ >  NX   Successfully ran target nx-release-publish for project my-lib
+```
+
+### Final attempt
+
+Finally we can pass a `packageRoot` option to the built in `nx-release-publish` target.
+The value for this option will be used as current working directory for the `@nx/js:release-publish` executor.
+
+Since we only have one pacakge in this standalone nx workspace, we can use the `dist` folder. In case of a nx workspace with multiple packages. We would use something like `dist/packages/{packageName}`. The build target of our lib project will ensure the dist folder contains our compiled js files and a generated `package.json`.
+
+Update `nx.json` with the following `targetDefaults`
+
+```json
+"targetDefaults": {
+  "nx-release-publish": {
+      "options": {
+          "packageRoot": "dist"
+      }
+  }
+}
+
+```
+
+And running `nx release publish` now gives:
+
+```sh
+❯ npx nx release publish --dry-run
+
+ >  NX   Running target nx-release-publish for project my-lib:
+
+    - my-lib
+
+   With additional flags:
+     --dryRun=true
+
+ ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+> nx run my-lib:nx-release-publish
+
+
+📦  @my-org/my-lib@1.1.0
+=== Tarball Contents ===
+
+276B   CHANGELOG.md
+10.9kB README.md
+30B    index.d.ts
+200B   index.js
+116B   index.js.map
+41B    lib/my-lib.d.ts
+200B   lib/my-lib.js
+172B   lib/my-lib.js.map
+976B   package.json
+=== Tarball Details ===
+name:          @my-org/my-lib
+version:       1.1.0
+filename:      my-org-my-lib-1.1.0.tgz
+package size:  3.6 kB
+unpacked size: 12.9 kB
+shasum:        dceb978cfcb47d8f9f34d361e7dc6cec8dd9d80e
+integrity:     sha512-JlZ33VTeH+dD7[...]i+Gqn+593Rrgw==
+total files:   9
+
+Would publish to https://registry.npmjs.org/ with tag "latest", but [dry-run] was set
+
+ ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
  >  NX   Successfully ran target nx-release-publish for project my-lib
 ```
